@@ -1,7 +1,14 @@
-const express = require('express');
+import app from './app.js';
+import { env } from './config/env.js';
+import { initRealtime } from './domain/events/Realtime.js';
+import pino from 'pino';
+import http from 'http';
 
-const app = express.express();
+const logger = pino();
+const server = http.createServer(app);
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+initRealtime(server);
+
+server.listen(env.PORT, () => {
+  logger.info(`Server running on port ${env.PORT}`);
 });
