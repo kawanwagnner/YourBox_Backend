@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 import { env } from '../config/env.ts';
 
-const candidate = process.env.MONGO_URI || process.env.MONGO_URL || env.DATABASE_URL;
+const candidate: string | undefined = process.env.MONGO_URI || process.env.MONGO_URL || env.DATABASE_URL;
 const isMongoScheme = (u?: string) => !!u && (u.startsWith('mongodb://') || u.startsWith('mongodb+srv://'));
-const MONGO_URI = isMongoScheme(candidate) ? candidate : process.env.MONGO_URI || process.env.MONGO_URL || 'mongodb://localhost:27017/yourbox';
+const MONGO_URI: string = isMongoScheme(candidate)
+  ? candidate! // candidate is a string when isMongoScheme(candidate) is true
+  : process.env.MONGO_URI || process.env.MONGO_URL || 'mongodb://localhost:27017/yourbox';
 
 export const connectMongo = async () => {
   try {
