@@ -1,6 +1,6 @@
-import { AuthService } from '../../domain/services/AuthService.js';
-import { ApiResponse } from '../../utils/ApiResponse.js';
-import { RegisterDTO, LoginDTO } from '../dtos/auth.dto.js';
+import { AuthService } from '../../domain/services/AuthService.ts';
+import { ApiResponse } from '../../utils/ApiResponse.ts';
+import { RegisterDTO, LoginDTO } from '../dtos/auth.dto.ts';
 
 export const AuthController = {
   async register(req: any, res: any, next: any) {

@@ -1,5 +1,5 @@
-import { verifyJwt } from '../../libs/jwt.js';
-import { UserRepository } from '../../domain/repositories/UserRepository.js';
+import { verifyJwt } from '../../libs/jwt.ts';
+import { UserRepository } from '../../domain/repositories/UserRepository.ts';
 
 export async function authMiddleware(req: any, res: any, next: any) {
   const token = req.cookies?.auth || req.headers.authorization?.replace('Bearer ', '');

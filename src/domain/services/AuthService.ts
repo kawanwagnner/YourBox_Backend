@@ -1,6 +1,6 @@
-import { UserRepository } from '../repositories/UserRepository.js';
-import { signJwt } from '../../libs/jwt.js';
-import { comparePassword, hashPassword } from '../../libs/hash.js';
+import { UserRepository } from '../repositories/UserRepository.ts';
+import { signJwt } from '../../libs/jwt.ts';
+import { comparePassword, hashPassword } from '../../libs/hash.ts';
 
 export const AuthService = {
   async register(name: string, email: string, password: string) {

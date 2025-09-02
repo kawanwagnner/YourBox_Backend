@@ -1,6 +1,6 @@
-import { ItemService } from '../../domain/services/ItemService.js';
-import { ApiResponse } from '../../utils/ApiResponse.js';
-import { CreateItemDTO } from '../dtos/item.dto.js';
+import { ItemService } from '../../domain/services/ItemService.ts';
+import { ApiResponse } from '../../utils/ApiResponse.ts';
+import { CreateItemDTO } from '../dtos/item.dto.ts';
 
 export const ItemController = {
   async list(req: any, res: any, next: any) {

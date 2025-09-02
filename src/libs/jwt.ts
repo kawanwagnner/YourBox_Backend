@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { env } from '../config/env.js';
+import { env } from '../config/env.ts';
 
 export function signJwt(payload: object) {
   return jwt.sign(payload, env.JWT_SECRET, { expiresIn: '7d' });

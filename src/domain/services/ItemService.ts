@@ -1,5 +1,5 @@
-import { Realtime } from '../events/Realtime.js';
-import { ItemRepository } from '../repositories/ItemRepository.js';
+import { Realtime } from '../events/Realtime.ts';
+import { ItemRepository } from '../repositories/ItemRepository.ts';
 
 export const ItemService = {
   async list(userId: string) {

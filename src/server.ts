@@ -1,6 +1,6 @@
-import app from './app.js';
-import { env } from './config/env.js';
-import { initRealtime } from './domain/events/Realtime.js';
+import app from './app.ts';
+import { env } from './config/env.ts';
+import { initRealtime } from './domain/events/Realtime.ts';
 import pino from 'pino';
 import http from 'http';
 
