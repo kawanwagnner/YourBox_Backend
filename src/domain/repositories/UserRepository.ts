@@ -1,13 +1,14 @@
-import { prisma } from '../../db/prisma.ts';
+import { UserModel } from '../../models/UserModel.ts';
 
 export const UserRepository = {
-  async findByEmail(email: string) {
-    return prisma.user.findUnique({ where: { email } });
+  async findByEmail(email: string): Promise<any> {
+    return UserModel.findOne({ email }).lean();
   },
-  async create(data: { name: string; email: string; passwordHash: string }) {
-    return prisma.user.create({ data });
+  async create(data: { name: string; email: string; passwordHash: string }): Promise<any> {
+    const user = new UserModel(data);
+    return user.save();
   },
-  async findById(id: string) {
-    return prisma.user.findUnique({ where: { id } });
+  async findById(id: string): Promise<any> {
+    return UserModel.findById(id).lean();
   },
 };

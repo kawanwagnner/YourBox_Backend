@@ -7,7 +7,9 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(4000),
   JWT_SECRET: z.string().min(8),
   CORS_ORIGIN: z.url(),
-  DATABASE_URL: z.string(),
+  DATABASE_URL: z.string().optional(),
+  MONGO_URI: z.string().optional(),
+  MONGO_URL: z.string().optional(),
 });
 
 export const env = envSchema.parse(process.env);
