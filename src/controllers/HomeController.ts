@@ -1,7 +1,2 @@
-import type { Request, Response } from 'express';
-
-export class HomeController {
-  static index(req: Request, res: Response) {
-    res.render('home', { title: 'Home Page' });
-  }
-}
+// HomeController removed - API-only project
+export class HomeController { static index() { return void 0; } }
