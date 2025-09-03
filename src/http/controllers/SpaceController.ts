@@ -15,6 +15,7 @@ export const SpaceController = {
       next(ApiResponse.error(err));
     }
   },
+  
   async list(req: Request, res: Response, next: NextFunction) {
     try {
       const user = (req as any).user;
@@ -24,6 +25,7 @@ export const SpaceController = {
       next(ApiResponse.error(err));
     }
   },
+
   async get(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params as { id: string };
@@ -36,6 +38,7 @@ export const SpaceController = {
       next(ApiResponse.error(err));
     }
   },
+
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params as { id: string };
@@ -51,6 +54,7 @@ export const SpaceController = {
       next(ApiResponse.error(err));
     }
   },
+
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params as { id: string };

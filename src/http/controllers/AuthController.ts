@@ -3,6 +3,10 @@ import { ApiResponse } from '../../utils/ApiResponse.ts';
 import { RegisterDTO, LoginDTO } from '../dtos/auth.dto.ts';
 import type { Request, Response, NextFunction } from 'express';
 
+interface AuthenticatedRequest extends Request {
+  user: { id: string; [key: string]: any };
+}
+
 export const AuthController = {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
@@ -31,12 +35,13 @@ export const AuthController = {
     res.json({ ok: true });
   },
   
-  async me(req: any, res: Response, next: NextFunction) {
+  async me(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await AuthService.getMe((req as any).user.id);
-      res.json(user);
+      const userId = (req as AuthenticatedRequest).user.id;
+      const user = await AuthService.getMe(userId);
+      return res.json(user);
     } catch (err) {
       next(ApiResponse.error(err));
     }
-  },
+  }
 };
