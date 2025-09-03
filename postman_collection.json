@@ -1,0 +1,287 @@
+{
+  "info": {
+    "_postman_id": "yourbox-backend-collection",
+    "name": "YourBox Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection para testar a API YourBox (auth, spaces, items). Variáveis: {{baseUrl}}, {{authToken}}, {{spaceId}}, {{itemId}}"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"secret123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","auth","register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"secret123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","auth","login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Salva token na variável de ambiente 'authToken' para usar nas próximas requisições",
+                  "if (pm.response.code === 200) {",
+                  "  const body = pm.response.json();",
+                  "  if (body && body.token) {",
+                  "    pm.environment.set('authToken', body.token);",
+                  "    console.log('authToken saved');",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","auth","logout"]
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","auth","me"]
+            }
+          }
+        },
+        {
+          "name": "Alive",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/alive",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","auth","alive"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Spaces",
+      "item": [
+        {
+          "name": "Create Space",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Minha Caixa\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/spaces",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","spaces"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Ao criar espaço, salva o _id retornado em {{spaceId}}",
+                  "if (pm.response.code === 200) {",
+                  "  const body = pm.response.json();",
+                  "  if (body && body._id) pm.environment.set('spaceId', body._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "List Spaces",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/spaces",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","spaces"]
+            }
+          }
+        }
+        ,
+        {
+          "name": "Get Space",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/spaces/{{spaceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","spaces","{{spaceId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Space",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Updated Name\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/spaces/{{spaceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","spaces","{{spaceId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Space",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/spaces/{{spaceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","spaces","{{spaceId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Items (space-scoped)",
+      "item": [
+        {
+          "name": "List Items",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/spaces/{{spaceId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","spaces","{{spaceId}}","items"]
+            }
+          }
+        },
+        {
+          "name": "Create Item (text)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"content\": \"Texto de exemplo\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/spaces/{{spaceId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","spaces","{{spaceId}}","items"]
+            }
+          }
+        },
+        {
+          "name": "Create Item (file)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "file", "type": "file", "src": [] },
+                { "key": "content", "type": "text", "value": "(opcional) descrição" }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/spaces/{{spaceId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","spaces","{{spaceId}}","items"]
+            }
+          }
+        },
+        {
+          "name": "Delete Item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/spaces/{{spaceId}}/items/{{itemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","spaces","{{spaceId}}","items","{{itemId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" },
+    { "key": "authToken", "value": "" },
+    { "key": "spaceId", "value": "" },
+    { "key": "itemId", "value": "" }
+  ]
+}

@@ -13,6 +13,7 @@ export const AuthController = {
       next(ApiResponse.error(err));
     }
   },
+
   async login(req: any, res: any, next: any) {
     try {
       const { email, password } = LoginDTO.parse(req.body);
@@ -23,10 +24,12 @@ export const AuthController = {
       next(ApiResponse.error(err));
     }
   },
+
   async logout(req: any, res: any) {
     res.clearCookie('auth');
     res.json({ ok: true });
   },
+  
   async me(req: any, res: any, next: any) {
     try {
       const user = await AuthService.getMe(req.user.id);

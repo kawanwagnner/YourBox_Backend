@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <script src="/public/js/main.js"></script>
+</head>
+<body onload="app.loadSpaces()">
+  <h1>Dashboard</h1>
+  <p><a href="/">Home</a> | <a href="/api/auth/logout">Logout</a></p>
+  <h2>Your Spaces</h2>
+  <ul id="spacesList"></ul>
+  <h3>Create Space</h3>
+  <form onsubmit="app.onCreateSpace(event)">
+    <input id="spaceName" placeholder="Space name" required />
+    <button type="submit">Create</button>
+  </form>
+</body>
+</html>

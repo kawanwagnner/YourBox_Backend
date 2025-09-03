@@ -5,7 +5,8 @@ import { CreateItemDTO } from '../dtos/item.dto.ts';
 export const ItemController = {
   async list(req: any, res: any, next: any) {
     try {
-      const items = await ItemService.list(req.user.id);
+      const spaceId = req.params.spaceId as string;
+      const items = await ItemService.list(spaceId);
       res.json(items);
     } catch (err) {
       next(ApiResponse.error(err));
@@ -16,8 +17,9 @@ export const ItemController = {
       const content: string | undefined = req.body.content ?? undefined;
       const fileUrl: string | undefined = req.file?.filename ? `/uploads/${req.file.filename}` : undefined;
       const data = CreateItemDTO.parse({ content, fileUrl });
-      const payload: { ownerId: string; content?: string; fileUrl?: string } = {
-        ownerId: req.user.id
+      const payload: { spaceId: string; createdBy: string; content?: string; fileUrl?: string } = {
+        spaceId: req.params.spaceId,
+        createdBy: req.user.id,
       };
       if (typeof content === 'string') payload.content = content;
       if (typeof fileUrl === 'string') payload.fileUrl = fileUrl;
@@ -30,7 +32,8 @@ export const ItemController = {
   async delete(req: any, res: any, next: any) {
     try {
       const { id } = req.params;
-      const result = await ItemService.delete(id, req.user.id);
+      const spaceId = req.params.spaceId as string;
+      const result = await ItemService.delete(id, spaceId);
       res.json(result);
     } catch (err) {
       next(ApiResponse.error(err));
